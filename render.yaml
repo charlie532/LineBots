@@ -1,0 +1,22 @@
+services:
+- type: web
+  name: line-bot-python-foodie
+  env: python
+  repo: https://github.com/charlie532/LineBot.git
+  buildCommand: "./build.sh"
+  startCommand: "gunicorn bot.wsgi:application"
+  plan: free
+  autoDeploy: false
+  envVars:
+  - key: DATABASE_URL
+    fromDatabase:
+      name: foodbot
+      property: connectionString
+  - key: LINE_CHANNEL_ACCESS_TOKEN
+    sync: false
+  - key: LINE_CHANNEL_SECRET
+    sync: false
+  - key: SECRET_KEY
+    generateValue: true
+  - key: WEB_CONCURRENCY
+    value: 4
